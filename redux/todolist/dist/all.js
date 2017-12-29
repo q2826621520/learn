@@ -728,36 +728,50 @@ var initialState = {
 };
 
 // 1定义Reducer修改规则
-function todoApp() {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
+function todos() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
   var action = arguments[1];
 
   switch (action.type) {
-    case _actionTypes.SET_VISIBILITY_FILTER:
-      return Object.assign({}, state, {
-        visibilityFilter: action.filter
-      });
     case _actionTypes.ADD_TODO:
-      return Object.assign({}, state, {
-        todos: [].concat(_toConsumableArray(state.todos), [{
-          text: action.text,
-          completed: false
-        }])
-      });
+      return [].concat(_toConsumableArray(state), [{
+        text: action.text,
+        completed: false
+      }]);
     case _actionTypes.TOGGLE_TODO:
-      return Object.assign({}, state, {
-        todos: state.todos.map(function (todo, index) {
-          if (index === action.index) {
-            return Object.assign({}, todo, {
-              completed: !todo.completed
-            });
-          }
-          return todo;
-        })
+      return state.map(function (todo, index) {
+        if (index === action.index) {
+          return Object.assign({}, todo, {
+            completed: !todo.completed
+          });
+        }
+        return todo;
       });
     default:
       return state;
   }
+}
+
+function visibilityFilter() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _actionTypes.VisibilityFilters.SHOW_ALL;
+  var action = arguments[1];
+
+  switch (action.type) {
+    case _actionTypes.SET_VISIBILITY_FILTER:
+      return action.filter;
+    default:
+      return state;
+  }
+}
+
+function todoApp() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var action = arguments[1];
+
+  return {
+    visibilityFilter: visibilityFilter(state.visibilityFilter, action),
+    todos: todos(state.todos, action)
+  };
 }
 
 // 2生成store
