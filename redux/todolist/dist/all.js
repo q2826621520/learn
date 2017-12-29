@@ -764,15 +764,17 @@ function visibilityFilter() {
   }
 }
 
-function todoApp() {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  var action = arguments[1];
-
-  return {
-    visibilityFilter: visibilityFilter(state.visibilityFilter, action),
-    todos: todos(state.todos, action)
-  };
-}
+// function todoApp(state = {}, action) {
+//   return {
+//     visibilityFilter: visibilityFilter(state.visibilityFilter, action),
+//     todos: todos(state.todos, action)
+//   }
+// }
+//上下两部分意义相同
+var todoApp = (0, _redux.combineReducers)({
+  visibilityFilter: visibilityFilter,
+  todos: todos
+});
 
 // 2生成store
 var store = (0, _redux.createStore)(todoApp);

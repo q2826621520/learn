@@ -1,4 +1,5 @@
 import { createStore } from 'redux';
+import { combineReducers } from 'redux';
 import { ADD_TODO, TOGGLE_TODO, SET_VISIBILITY_FILTER, VisibilityFilters } from './actionTypes'
 //唯一,只读,使用reducer纯函数修改
 // {
@@ -56,12 +57,17 @@ function visibilityFilter(state = VisibilityFilters.SHOW_ALL, action) {
   }
 }
 
-function todoApp(state = {}, action) {
-  return {
-    visibilityFilter: visibilityFilter(state.visibilityFilter, action),
-    todos: todos(state.todos, action)
-  }
-}
+// function todoApp(state = {}, action) {
+//   return {
+//     visibilityFilter: visibilityFilter(state.visibilityFilter, action),
+//     todos: todos(state.todos, action)
+//   }
+// }
+//上下两部分意义相同
+const todoApp = combineReducers({
+  visibilityFilter,
+  todos
+})
 
 // 2生成store
 let store = createStore(todoApp);
