@@ -2012,7 +2012,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 //第二部 创建store
 var store = (0, _redux.createStore)(_reducers2.default);
-
+var state = store.getState(); //对 Store 生成快照,获取数据
+console.log(state);
 var rootElement = document.getElementById('root');
 (0, _reactDom.render)(_react2.default.createElement(
   _reactRedux.Provider,
